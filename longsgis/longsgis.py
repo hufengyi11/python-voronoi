@@ -130,22 +130,37 @@ def voronoiDiagram4plg(gdf, mask, densify=False, spacing='auto'):
 	gdf_vd = dropHoles(gdf_vd)
 	return gdf_vd
 
-def dropHolesBase(plg):
-	'''Basic function to remove / drop / fill the holes.
+# def dropHolesBase(plg):
+# 	'''Basic function to remove / drop / fill the holes.
 	
-	Parameters:
-		plg: plg who has holes / empties
-			Type: shapely.geometry.MultiPolygon or shapely.geometry.Polygon
-	Returns:
-		a shapely.geometry.MultiPolygon or shapely.geometry.Polygon object
-	'''
-	if isinstance(plg, MultiPolygon):
-		if shapely.__version__ < '2.0':
-			return MultiPolygon(Polygon(p.exterior) for p in plg)
-		else:
-			return MultiPolygon(Polygon(p.exterior) for p in plg.geoms)
-	elif isinstance(plg, Polygon):
-		return Polygon(plg.exterior)
+# 	Parameters:
+# 		plg: plg who has holes / empties
+# 			Type: shapely.geometry.MultiPolygon or shapely.geometry.Polygon
+# 	Returns:
+# 		a shapely.geometry.MultiPolygon or shapely.geometry.Polygon object
+# 	'''
+# 	if isinstance(plg, MultiPolygon):
+# 		if shapely.__version__ < '2.0':
+# 			return MultiPolygon(Polygon(p.exterior) for p in plg)
+# 		else:
+# 			return MultiPolygon(Polygon(p.exterior) for p in plg.geoms)
+# 	elif isinstance(plg, Polygon):
+# 		return Polygon(plg.exterior)
+
+def dropHolesBase(plg):
+    '''Basic function to remove / drop / fill the holes.
+    
+    Parameters:
+        plg: plg who has holes / empties
+            Type: shapely.geometry.MultiPolygon or shapely.geometry.Polygon
+    Returns:
+        a shapely.geometry.MultiPolygon or shapely.geometry.Polygon object
+    '''
+    if isinstance(plg, MultiPolygon):
+        return MultiPolygon(Polygon(p.exterior) for p in plg.geoms)
+    elif isinstance(plg, Polygon):
+        return Polygon(plg.exterior)
+
 
 def dropHoles(gdf):
 	'''Remove / drop / fill the holes / empties for iterms in GeoDataFrame.
